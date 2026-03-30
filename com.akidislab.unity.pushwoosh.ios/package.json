@@ -1,0 +1,25 @@
+{
+  "name": "com.akidislab.unity.pushwoosh.ios",
+  "version": "1.0.7",
+  "displayName": "Pushwoosh SDK - iOS",
+  "description": "iOS platform support for Pushwoosh Unity SDK.",
+  "unity": "2021.3",
+  "author": {
+    "name": "Pushwoosh",
+    "url": "https://www.pushwoosh.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "com.akidislab.unity.pushwoosh.core": "1.0.7"
+  },
+  "keywords": [
+    "pushwoosh",
+    "push",
+    "notifications",
+    "ios"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akidison/pushwoosh-unity.git"
+  }
+}

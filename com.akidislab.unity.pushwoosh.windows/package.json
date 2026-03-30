@@ -1,0 +1,27 @@
+{
+  "name": "com.akidislab.unity.pushwoosh.windows",
+  "version": "1.0.7",
+  "displayName": "Pushwoosh SDK - Windows",
+  "description": "Windows (UWP/WSA) platform support for Pushwoosh Unity SDK.",
+  "unity": "2021.3",
+  "author": {
+    "name": "Pushwoosh",
+    "url": "https://www.pushwoosh.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "com.akidislab.unity.pushwoosh.core": "1.0.7"
+  },
+  "keywords": [
+    "pushwoosh",
+    "push",
+    "notifications",
+    "windows",
+    "uwp",
+    "wsa"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akidison/pushwoosh-unity.git"
+  }
+}
