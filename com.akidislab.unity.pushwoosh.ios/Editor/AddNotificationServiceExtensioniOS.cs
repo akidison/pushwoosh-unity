@@ -122,8 +122,9 @@ public class AddNotificationServiceExtensioniOS : MonoBehaviour
         proj.AddFileToBuild(newTarget, proj.AddFile(buildPath + "/NotificationService/NotificationService.h", "NotificationService/NotificationService.h"));
         proj.AddFileToBuild(newTarget, proj.AddFile(buildPath + "/NotificationService/NotificationService.m", "NotificationService/NotificationService.m"));
 
-        proj.SetBuildProperty(newTarget, "IPHONEOS_DEPLOYMENT_TARGET", "10.0");
-        proj.SetBuildProperty(newTarget, "ARCHS", archs);
+        proj.SetBuildProperty(newTarget, "IPHONEOS_DEPLOYMENT_TARGET", "13.0");
+        if (!string.IsNullOrEmpty(archs))
+            proj.SetBuildProperty(newTarget, "ARCHS", archs);
 
         proj.AddFrameworkToProject(newTarget, "UserNotifications.framework", false);
         proj.WriteToFile(projPath);
