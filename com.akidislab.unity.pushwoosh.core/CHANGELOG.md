@@ -5,6 +5,15 @@ All notable changes to Pushwoosh Unity SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.12] - 2026-03-30
+
+### Native SDK Updates
+- Android SDK: 6.7.60
+- iOS SDK: 7.0.33
+
+### Changes
+- Fix duplicate GUID conflict between link.xml and PushwooshIOSDependencies.xml
+
 ## [1.0.11] - 2026-03-30
 
 ### Native SDK Updates
