@@ -4,9 +4,7 @@
   "references": [
     "Pushwoosh.Core.Runtime"
   ],
-  "includePlatforms": [
-    "WSA"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,

@@ -1,6 +1,6 @@
 {
   "name": "com.akidislab.unity.pushwoosh.core",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "displayName": "Pushwoosh SDK",
   "description": "Pushwoosh push notification SDK for Unity. Core package with cross-platform API.",
   "unity": "2021.3",

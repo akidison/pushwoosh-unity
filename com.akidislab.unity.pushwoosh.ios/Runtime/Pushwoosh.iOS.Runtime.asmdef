@@ -4,9 +4,7 @@
   "references": [
     "Pushwoosh.Core.Runtime"
   ],
-  "includePlatforms": [
-    "iOS"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,
