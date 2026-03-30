@@ -78,7 +78,7 @@
 	using System.Linq;
 	using System.Text;
 
-	namespace SimpleJSON
+	namespace PushwooshJSON
 	{
 		public enum JSONNodeType
 		{

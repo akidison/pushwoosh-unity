@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MiniJSON;
 using UnityEditor;
 using UnityEditor.Build;
 
@@ -25,24 +24,16 @@ class CustomBuildProcessor : IPreprocessBuild
         {
             string json = ReadJson(sourcePath);
 
-            var dict = Json.Deserialize(json) as Dictionary<string, object>;
-            var projectInfo = dict["project_info"] as Dictionary<string, object>;
-            var projectNumber = projectInfo["project_number"] as string;
-            var projectId = projectInfo["project_id"] as string;
+            var root = PushwooshJSON.JSON.Parse(json);
+            var projectNumber = root["project_info"]["project_number"].Value;
+            var projectId = root["project_info"]["project_id"].Value;
 
-            var client = dict["client"] as List<object>;
-            var element = client[0] as Dictionary<string, object>;
-            var oauthClient = element["oauth_client"] as List<object>;
-            var elementOathClient = oauthClient.Count > 0 ? oauthClient[0] as Dictionary<string, object> : null;
-            var clientId = elementOathClient != null ? elementOathClient["client_id"] as string : "";
+            var element = root["client"][0];
+            var oauthClient = element["oauth_client"];
+            var clientId = oauthClient.Count > 0 ? oauthClient[0]["client_id"].Value : "";
 
-            var clientInfo = element["client_info"] as Dictionary<string, object>;
-            var appId = clientInfo["mobilesdk_app_id"];
-            
-            var apiKey = element["api_key"] as List<object>;
-            var elementApiKey = apiKey[0] as Dictionary<string, object>;
-            var googleApiKey = elementApiKey["current_key"] as string;
-
+            var appId = element["client_info"]["mobilesdk_app_id"].Value;
+            var googleApiKey = element["api_key"][0]["current_key"].Value;
 
             var xml = CreateXml(projectNumber, clientId, appId, projectId, googleApiKey);
             WriteFile(xml, destinationPath);

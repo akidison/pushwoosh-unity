@@ -60,9 +60,11 @@ public class PushwooshBuildManager : MonoBehaviour
 			PBXProject proj = new PBXProject();
 			proj.ReadFromString(File.ReadAllText(projPath));
 			string projTarget = proj.GetUnityMainTargetGuid();
+			string frameworkTarget = proj.GetUnityFrameworkTargetGuid();
 			UnityEngine.Debug.Log ("Project Target: " + projTarget);
 
 			proj.AddFrameworkToProject(projTarget, "Security.framework", false);
+			proj.AddFrameworkToProject(frameworkTarget, "UserNotifications.framework", false);
 			proj.AddBuildProperty(projTarget, "OTHER_LDFLAGS", "-ObjC -lz -lstdc++");
 
             if (File.Exists("Assets/Plugins/iOS/Entitlements.plist"))
@@ -72,11 +74,99 @@ public class PushwooshBuildManager : MonoBehaviour
             }
 
 			File.WriteAllText(projPath, proj.WriteToString());
+
+			GeneratePodfile(pathToBuiltProject);
+			RunPodInstall(pathToBuiltProject);
 		}
 #endif
 
 		if (target == BuildTarget.WP8Player) {
 			postProcessWP8Build(pathToBuiltProject);
+		}
+	}
+
+	private static bool IsEDM4UInstalled() {
+		return System.Type.GetType("Google.IOSResolver, Google.IOSResolver") != null ||
+		       System.Type.GetType("Google.IOSResolver, Unity.IOSResolver") != null;
+	}
+
+	private static string GetIOSSDKVersion() {
+		string[] searchPaths = {
+			"Assets/Pushwoosh/Editor/PushwooshIOSDependencies.xml",
+			"Assets/Editor/PushwooshIOSDependencies.xml",
+			"Packages/com.akidislab.unity.pushwoosh.ios/Editor/PushwooshIOSDependencies.xml"
+		};
+
+		foreach (string xmlPath in searchPaths) {
+			if (File.Exists(xmlPath)) {
+				string content = File.ReadAllText(xmlPath);
+				var match = Regex.Match(content, @"PushwooshXCFramework.*?version=""([0-9.]+)""");
+				if (match.Success) {
+					return match.Groups[1].Value;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static void GeneratePodfile(string path) {
+		if (IsEDM4UInstalled()) {
+			UnityEngine.Debug.Log("Pushwoosh: EDM4U detected, skipping Podfile generation");
+			return;
+		}
+
+		string podfilePath = Path.Combine(path, "Podfile");
+		if (File.Exists(podfilePath)) {
+			string existing = File.ReadAllText(podfilePath);
+			if (existing.Contains("PushwooshXCFramework")) {
+				UnityEngine.Debug.Log("Pushwoosh: Podfile already contains PushwooshXCFramework, skipping generation");
+				return;
+			}
+		}
+
+		string iosVersion = GetIOSSDKVersion();
+		if (string.IsNullOrEmpty(iosVersion)) {
+			UnityEngine.Debug.LogWarning("Pushwoosh: Could not detect iOS SDK version from PushwooshIOSDependencies.xml");
+			return;
+		}
+
+		string podfileContent =
+			"source 'https://cdn.cocoapods.org/'\n" +
+			"platform :ios, '13.0'\n\n" +
+			"target 'UnityFramework' do\n" +
+			"  pod 'PushwooshXCFramework', '" + iosVersion + "'\n" +
+			"end\n\n" +
+			"target 'Unity-iPhone' do\n" +
+			"end\n";
+
+		File.WriteAllText(podfilePath, podfileContent);
+		UnityEngine.Debug.Log("Pushwoosh: Podfile generated with PushwooshXCFramework " + iosVersion);
+	}
+
+	private static void RunPodInstall(string path) {
+		try {
+			ProcessStartInfo psi = new ProcessStartInfo() {
+				FileName = "/bin/bash",
+				Arguments = "-c \"cd \\\"" + path + "\\\" && pod install\"",
+				UseShellExecute = false,
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				CreateNoWindow = true
+			};
+
+			Process process = Process.Start(psi);
+			string output = process.StandardOutput.ReadToEnd();
+			string error = process.StandardError.ReadToEnd();
+			process.WaitForExit();
+
+			if (process.ExitCode == 0) {
+				UnityEngine.Debug.Log("Pushwoosh: pod install succeeded\n" + output);
+			} else {
+				UnityEngine.Debug.LogWarning("Pushwoosh: pod install failed (exit code " + process.ExitCode + ")\n" + error + "\n" + output);
+				UnityEngine.Debug.LogWarning("Pushwoosh: Run 'pod install' manually in " + path);
+			}
+		} catch (System.Exception e) {
+			UnityEngine.Debug.LogWarning("Pushwoosh: Could not run pod install: " + e.Message + "\nRun 'pod install' manually in " + path);
 		}
 	}
 

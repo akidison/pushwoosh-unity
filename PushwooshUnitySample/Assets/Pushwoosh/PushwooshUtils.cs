@@ -1,5 +1,4 @@
 using UnityEngine;
-using SimpleJSON;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,49 +13,49 @@ public static class PushwooshUtils
 	/// <param name="json">JSON</param>
 	public static IDictionary<string, object> JsonToDictionary(string json)
 	{
-		JSONObject jsonObject = JSON.Parse(json) as JSONObject;
+		PushwooshJSON.JSONObject jsonObject = PushwooshJSON.JSON.Parse(json) as PushwooshJSON.JSONObject;
 		return JsonObjectToDictionary (jsonObject);
 	}
 
-	private static IDictionary<string, object> JsonObjectToDictionary(JSONObject jsonObject)
+	private static IDictionary<string, object> JsonObjectToDictionary(PushwooshJSON.JSONObject jsonObject)
 	{
 		var result = new Dictionary<string, object> ();
 
-		foreach (KeyValuePair<string, JSONNode> pair in jsonObject) {
+		foreach (KeyValuePair<string, PushwooshJSON.JSONNode> pair in jsonObject) {
 			string key = pair.Key;
-			JSONNode value = pair.Value;
+			PushwooshJSON.JSONNode value = pair.Value;
 			result.Add (key, JsonNodeToPOCO (value));
 		}
 
 		return result;
 	}
 
-	private static List<object> JsonArrayToList(JSONArray jsonArray)
+	private static List<object> JsonArrayToList(PushwooshJSON.JSONArray jsonArray)
 	{
 		List<object> result = new List<object> ();
-		foreach (JSONNode node in jsonArray) {
+		foreach (PushwooshJSON.JSONNode node in jsonArray) {
 			result.Add (JsonNodeToPOCO(node));
 		}
 		return result;
-	}	
+	}
 
-	private static object JsonNodeToPOCO(JSONNode node)
+	private static object JsonNodeToPOCO(PushwooshJSON.JSONNode node)
 	{
 		if (node.IsNumber) {
 			return node.AsDouble;
-		} 
+		}
 		else if (node.IsBoolean) {
 			return node.AsBool;
-		} 
+		}
 		else if (node.IsString) {
 			return node.Value;
-		} 
+		}
 		else if (node.IsObject) {
-			return JsonObjectToDictionary (node as JSONObject);
-		} 
+			return JsonObjectToDictionary (node as PushwooshJSON.JSONObject);
+		}
 		else if (node.IsArray) {
-			return JsonArrayToList (node as JSONArray);
-		} 
+			return JsonArrayToList (node as PushwooshJSON.JSONArray);
+		}
 		else if (node.IsNull) {
 			return null;
 		}
