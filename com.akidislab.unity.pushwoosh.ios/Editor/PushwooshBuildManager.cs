@@ -67,9 +67,10 @@ public class PushwooshBuildManager : MonoBehaviour
 			proj.AddFrameworkToProject(frameworkTarget, "UserNotifications.framework", false);
 			proj.AddBuildProperty(projTarget, "OTHER_LDFLAGS", "-ObjC -lz -lstdc++");
 
-            if (File.Exists("Assets/Plugins/iOS/Entitlements.plist"))
+            string entitlementsSource = FindEntitlementsPlist();
+            if (entitlementsSource != null)
             {
-                File.Copy("Assets/Plugins/iOS/Entitlements.plist", pathToBuiltProject + "/Entitlements.plist");
+                File.Copy(entitlementsSource, pathToBuiltProject + "/Entitlements.plist");
                 proj.AddBuildProperty(projTarget, "CODE_SIGN_ENTITLEMENTS", "Entitlements.plist");
             }
 
@@ -83,6 +84,21 @@ public class PushwooshBuildManager : MonoBehaviour
 		if (target == BuildTarget.WP8Player) {
 			postProcessWP8Build(pathToBuiltProject);
 		}
+	}
+
+	private static string FindEntitlementsPlist() {
+		string[] searchPaths = {
+			"Assets/Plugins/iOS/Entitlements.plist",
+			"Packages/com.akidislab.unity.pushwoosh.ios/Plugins/iOS/Entitlements.plist"
+		};
+
+		foreach (string path in searchPaths) {
+			string fullPath = Path.GetFullPath(path);
+			if (File.Exists(fullPath))
+				return fullPath;
+		}
+
+		return null;
 	}
 
 	private static bool IsEDM4UInstalled() {
