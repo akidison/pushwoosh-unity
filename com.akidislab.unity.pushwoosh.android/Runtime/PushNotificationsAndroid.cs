@@ -5,13 +5,15 @@ using System.Collections.Generic;
 
 public class PushNotificationsAndroid : Pushwoosh
 {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 	static void RegisterPlatform()
 	{
 		Pushwoosh.RegisterPlatformType(typeof(PushNotificationsAndroid));
 	}
+#endif
 
+#if UNITY_ANDROID && !UNITY_EDITOR
 	private static AndroidJavaObject pushwoosh = null;
 
 	private Queue<GetTagsHandler> tagsHandlers = new Queue<GetTagsHandler>();
