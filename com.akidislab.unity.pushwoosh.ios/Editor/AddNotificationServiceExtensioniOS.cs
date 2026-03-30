@@ -9,6 +9,23 @@ using System.Text.RegularExpressions;
 
 public class AddNotificationServiceExtensioniOS : MonoBehaviour
 {
+    private static string FindNotificationServiceDir()
+    {
+        string[] searchPaths = {
+            "Assets/NotificationService",
+            "Packages/com.akidislab.unity.pushwoosh.ios/NotificationService"
+        };
+
+        foreach (string path in searchPaths)
+        {
+            string fullPath = Path.GetFullPath(path);
+            if (Directory.Exists(fullPath) && File.Exists(Path.Combine(fullPath, "NotificationService.h")))
+                return fullPath;
+        }
+
+        return null;
+    }
+
     [PostProcessBuild]
     private static void PostProcessBuild_iOS(BuildTarget target, string buildPath)
     {
@@ -17,10 +34,42 @@ public class AddNotificationServiceExtensioniOS : MonoBehaviour
 
         //Copy files to xcode project dir
         Directory.CreateDirectory(buildPath + "/NotificationService");
-        //string[] filesToCopy = ["Info.plist", "NotificationService.entitlements", ];
-        File.Copy("Assets/NotificationService/NotificationService.h", buildPath + "/NotificationService/NotificationService.h");
-        File.Copy("Assets/NotificationService/NotificationService.m", buildPath + "/NotificationService/NotificationService.m");
-        File.Copy("Assets/NotificationService/Info.plist", buildPath + "/NotificationService/Info.plist");
+
+        string nseSourceDir = FindNotificationServiceDir();
+        if (nseSourceDir == null)
+        {
+            Debug.LogWarning("Pushwoosh: NotificationService files not found, skipping NSE setup");
+            return;
+        }
+
+        File.Copy(Path.Combine(nseSourceDir, "NotificationService.h"), buildPath + "/NotificationService/NotificationService.h");
+        File.Copy(Path.Combine(nseSourceDir, "NotificationService.m"), buildPath + "/NotificationService/NotificationService.m");
+
+        string infoPlistSource = Path.Combine(nseSourceDir, "Info.plist");
+        if (!File.Exists(infoPlistSource))
+        {
+            // Generate a minimal Info.plist for NSE
+            string plistContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
+                "<plist version=\"1.0\">\n<dict>\n" +
+                "<key>CFBundleDisplayName</key><string>NotificationService</string>\n" +
+                "<key>CFBundleExecutable</key><string>NotificationService</string>\n" +
+                "<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>\n" +
+                "<key>CFBundleInfoDictionaryVersion</key><string>6.0</string>\n" +
+                "<key>CFBundleName</key><string>NotificationService</string>\n" +
+                "<key>CFBundlePackageType</key><string>XPC!</string>\n" +
+                "<key>CFBundleShortVersionString</key><string>1.0</string>\n" +
+                "<key>CFBundleVersion</key><string>1</string>\n" +
+                "<key>NSExtension</key><dict>\n" +
+                "<key>NSExtensionPointIdentifier</key><string>com.apple.usernotifications.service</string>\n" +
+                "<key>NSExtensionPrincipalClass</key><string>NotificationService</string>\n" +
+                "</dict>\n</dict>\n</plist>";
+            File.WriteAllText(buildPath + "/NotificationService/Info.plist", plistContent);
+        }
+        else
+        {
+            File.Copy(infoPlistSource, buildPath + "/NotificationService/Info.plist");
+        }
 
         //load xcode project
         PBXProject proj = new PBXProject();

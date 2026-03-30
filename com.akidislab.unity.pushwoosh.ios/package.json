@@ -1,6 +1,6 @@
 {
   "name": "com.akidislab.unity.pushwoosh.ios",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "displayName": "Pushwoosh SDK - iOS",
   "description": "iOS platform support for Pushwoosh Unity SDK.",
   "unity": "2021.3",
@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "com.akidislab.unity.pushwoosh.core": "1.0.7"
+    "com.akidislab.unity.pushwoosh.core": "1.0.8"
   },
   "keywords": [
     "pushwoosh",
