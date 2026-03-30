@@ -147,7 +147,7 @@ public class PushwooshBuildManager : MonoBehaviour
 		try {
 			ProcessStartInfo psi = new ProcessStartInfo() {
 				FileName = "/bin/bash",
-				Arguments = "-c \"cd \\\"" + path + "\\\" && pod install\"",
+				Arguments = "-l -c \"cd \\\"" + path + "\\\" && pod install\"",
 				UseShellExecute = false,
 				RedirectStandardOutput = true,
 				RedirectStandardError = true,
