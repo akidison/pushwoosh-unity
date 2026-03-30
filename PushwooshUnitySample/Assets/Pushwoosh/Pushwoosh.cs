@@ -1,89 +1,55 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System;
 using System.Collections.Generic;
-
-#if UNITY_IPHONE
-using PushwooshInstanceType = PushNotificationsIOS;
-#elif UNITY_ANDROID
-using PushwooshInstanceType = PushNotificationsAndroid;
-#elif (UNITY_WP8 || UNITY_WP8_1 || UNITY_WSA || UNITY_WSA_8_0 || UNITY_WSA_8_1 || UNITY_WSA_10_0)
-using PushwooshInstanceType = PushNotificationsWindows; 
-#else 
-using PushwooshInstanceType = Pushwoosh;
-#endif
 
 public class Pushwoosh : MonoBehaviour
 {
 	public static string ApplicationCode { get; set; }
-	
+
 	public static string FcmProjectNumber { get; set; }
-	
+
     public static string GcmProjectNumber {
-        get
-        {
-            return FcmProjectNumber;
-        }
-        set
-        {
-            FcmProjectNumber = value;
-        }
+        get { return FcmProjectNumber; }
+        set { FcmProjectNumber = value; }
     }
 
 	public delegate void RegistrationSuccessHandler(string token);
-	
 	public delegate void RegistrationErrorHandler(string error);
-
     public delegate void CommunicationHandler(string enabled);
-	
 	public delegate void NotificationHandler(string payload);
-
 	public delegate void GetTagsHandler(IDictionary<string, object> tags, PushwooshException error);
-
 	public delegate void PurchaseSuccessHandler(string identifier);
-
 	public delegate void PromotedPurchaseSuccessHandler(string identifier);
-
 	public delegate void CompletedTransactionsFailedHandler(string error);
-
 	public delegate void PaymentFailedProductIdentifierHandler(string error);
-	
 	public delegate void PurchaseHelperProductsHandler(string identifiers);
 
-
 	public event RegistrationSuccessHandler OnRegisteredForPushNotifications = delegate {};
-	
 	public event RegistrationErrorHandler OnFailedToRegisteredForPushNotifications = delegate {};
-	
 	public event NotificationHandler OnPushNotificationsReceived = delegate {};
-
 	public event NotificationHandler OnPushNotificationsOpened = delegate {};
-
     public event CommunicationHandler OnSetCommunicationEnabled = delegate { };
-
 	public event PurchaseSuccessHandler OnPWInAppPurchaseHelperPaymentComplete = delegate { };
-
 	public event PromotedPurchaseSuccessHandler OnPWInAppPurchaseHelperCallPromotedPurchase = delegate { };
-
 	public event CompletedTransactionsFailedHandler OnPWInAppPurchaseHelperRestoreCompletedTransactionsFailed = delegate { };
-
 	public event PaymentFailedProductIdentifierHandler OnPWInAppPurchaseHelperPaymentFailedProductIdentifier = delegate { };
-
 	public event PurchaseHelperProductsHandler OnPWInAppPurchaseHelperProducts = delegate { };
 
 	public virtual string HWID
 	{
-		get 
+		get
 		{
 			Debug.Log ("[Pushwoosh] Error: HWID is not supported on this platform");
-			return "Unsupported platform"; 
+			return "Unsupported platform";
 		}
 	}
 
 	public virtual string PushToken
 	{
-		get 
-		{ 
+		get
+		{
 			Debug.Log ("[Pushwoosh] Error: PushToken is not supported on this platform");
-			return "Unsupported platform"; 
+			return "Unsupported platform";
 		}
 	}
 
@@ -116,12 +82,12 @@ public class Pushwoosh : MonoBehaviour
 	{
 		Debug.Log ("[Pushwoosh] Error: SetIntTag is not supported on this platform");
 	}
-	
+
 	public virtual void SetStringTag(string tagName, string tagValue)
 	{
 		Debug.Log ("[Pushwoosh] Error: SetStringTag is not supported on this platform");
 	}
-	
+
 	public virtual void SetListTag(string tagName, List<object> tagValues)
 	{
 		Debug.Log ("[Pushwoosh] Error: SetListTag is not supported on this platform");
@@ -139,7 +105,7 @@ public class Pushwoosh : MonoBehaviour
 
     public virtual NotificationSettings GetRemoteNotificationStatus()
     {
-        Debug.Log ("[Pushwoosh] Error: GetRemoteNotificationStatus ins not supported on this platform");
+        Debug.Log ("[Pushwoosh] Error: GetRemoteNotificationStatus is not supported on this platform");
         return null;
     }
 
@@ -147,7 +113,7 @@ public class Pushwoosh : MonoBehaviour
 	{
 		Debug.Log ("[Pushwoosh] Error: SetBadgeNumber is not supported on this platform");
 	}
-	
+
 	public virtual void AddBadgeNumber(int deltaBadge)
 	{
 		Debug.Log ("[Pushwoosh] Error: AddBadgeNumber is not supported on this platform");
@@ -214,8 +180,6 @@ public class Pushwoosh : MonoBehaviour
 		OnPushNotificationsOpened(payload);
 	}
 
-	// In-App Purchase iOS
-
 	protected void PWInAppPurchaseHelperPaymentComplete(string identifier)
 	{
 		OnPWInAppPurchaseHelperPaymentComplete(identifier);
@@ -236,7 +200,7 @@ public class Pushwoosh : MonoBehaviour
 		OnPWInAppPurchaseHelperPaymentFailedProductIdentifier(error);
 	}
 
-	protected void PWInAppPurchaseHelperProducts(string identifiers) 
+	protected void PWInAppPurchaseHelperProducts(string identifiers)
 	{
 		OnPWInAppPurchaseHelperProducts(identifiers);
 	}
@@ -273,71 +237,59 @@ public class Pushwoosh : MonoBehaviour
         OnSetCommunicationEnabled(enabled);
     }
 
+	// Platform registration
+	private static Type _platformType;
+
+	public static void RegisterPlatformType(Type type)
+	{
+		_platformType = type;
+	}
+
 	// Singleton
-	private static PushwooshInstanceType _instance;
-	
+	private static Pushwoosh _instance;
 	private static object _lock = new object();
 
 	protected Pushwoosh() {}
 
 	protected virtual void Initialize() {}
-	
-	public static PushwooshInstanceType Instance
+
+	public static Pushwoosh Instance
 	{
 		get
 		{
 			if (applicationIsQuitting) {
-				Debug.LogWarning("[Singleton] Instance '"+ typeof(PushwooshInstanceType) +
-				                 "' already destroyed on application quit." +
-				                 " Won't create again - returning null.");
+				Debug.LogWarning("[Pushwoosh] Instance already destroyed on application quit. Returning null.");
 				return null;
 			}
-			
+
 			lock(_lock)
 			{
 				if (_instance == null)
 				{
-					_instance = (PushwooshInstanceType) FindObjectOfType(typeof(PushwooshInstanceType));
-					
-					if ( FindObjectsOfType(typeof(PushwooshInstanceType)).Length > 1 )
-					{
-						Debug.LogError("[Singleton] Something went really wrong " +
-						               " - there should never be more than 1 singleton!" +
-						               " Reopening the scene might fix it.");
-						return _instance;
-					}
-					
+					Type instanceType = _platformType ?? typeof(Pushwoosh);
+
+					_instance = (Pushwoosh) FindObjectOfType(instanceType);
+
 					if (_instance == null)
 					{
 						GameObject singleton = new GameObject();
-						singleton.name = "(singleton) "+ typeof(PushwooshInstanceType).ToString();
-						_instance = singleton.AddComponent<PushwooshInstanceType>();
-						_instance.Initialize ();
-						
+						singleton.name = "(singleton) " + instanceType.ToString();
+						_instance = (Pushwoosh) singleton.AddComponent(instanceType);
+						_instance.Initialize();
+
 						DontDestroyOnLoad(singleton);
-						
-						Debug.Log("[Singleton] An instance of " + typeof(PushwooshInstanceType) + 
-						          " has been created with DontDestroyOnLoad.");
-					} else {
-						Debug.Log("[Singleton] Using instance already created: " +
-						          _instance.gameObject.name);
+
+						Debug.Log("[Pushwoosh] Instance of " + instanceType + " created with DontDestroyOnLoad.");
 					}
 				}
-				
+
 				return _instance;
 			}
 		}
 	}
-	
+
 	private static bool applicationIsQuitting = false;
-	/// <summary>
-	/// When Unity quits, it destroys objects in a random order.
-	/// In principle, a Singleton is only destroyed when application quits.
-	/// If any script calls Instance after it have been destroyed, 
-	///   it will create a buggy ghost object that will stay on the Editor scene
-	///   even after stopping playing the Application. Really bad!
-	/// So, this was made to be sure we're not creating that buggy ghost object.
-	/// </summary>
+
 	public void OnDestroy () {
 		applicationIsQuitting = true;
 	}

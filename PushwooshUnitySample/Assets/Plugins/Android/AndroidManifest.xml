@@ -1,4 +1,4 @@
-<manifest xmlns:android='http://schemas.android.com/apk/res/android' xmlns:amazon='http://schemas.amazon.com/apk/res/android' package='com.pushwoosh.demoapp'>
+<manifest xmlns:android='http://schemas.android.com/apk/res/android' xmlns:amazon='http://schemas.amazon.com/apk/res/android' package='PACKAGE_NAME'>
 	<uses-sdk android:targetSdkVersion='34' />
 
 	<application>
@@ -7,7 +7,7 @@
 			<intent-filter>
 				<action android:name='android.intent.action.MAIN' />
 				<category android:name='android.intent.category.LAUNCHER' />
-				<action android:name='com.pushwoosh.demoapp.MESSAGE' />
+				<action android:name='PACKAGE_NAME.MESSAGE' />
 				<category android:name='android.intent.category.DEFAULT' />
 			</intent-filter>
 		</activity>

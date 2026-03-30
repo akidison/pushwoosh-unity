@@ -6,23 +6,29 @@ using System.Collections.Generic;
 public class PushNotificationsAndroid : Pushwoosh
 {
 #if UNITY_ANDROID && !UNITY_EDITOR
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+	static void RegisterPlatform()
+	{
+		Pushwoosh.RegisterPlatformType(typeof(PushNotificationsAndroid));
+	}
+
 	private static AndroidJavaObject pushwoosh = null;
 
 	private Queue<GetTagsHandler> tagsHandlers = new Queue<GetTagsHandler>();
-	
-	protected override void Initialize() 
+
+	protected override void Initialize()
 	{
 		if(pushwoosh != null)
 			return;
-		
+
 		using(var pluginClass = new AndroidJavaClass("com.pushwoosh.unityplugin.PushwooshProxy")) {
 			pluginClass.CallStatic("initialize", Pushwoosh.ApplicationCode, Pushwoosh.FcmProjectNumber);
 			pushwoosh = pluginClass.CallStatic<AndroidJavaObject>("instance");
 		}
-		
+
 		pushwoosh.Call("setListenerName", this.gameObject.name);
     }
- 
+
 	public override void RegisterForPushNotifications()
 	{
 		pushwoosh.Call("registerForPushNotifications");
@@ -105,7 +111,7 @@ public class PushNotificationsAndroid : Pushwoosh
 	{
 		pushwoosh.Call("setBadgeNumber", number);
 	}
-	
+
 	public override void AddBadgeNumber(int deltaBadge)
 	{
 		pushwoosh.Call("addBadgeNumber", deltaBadge);
@@ -133,7 +139,6 @@ public class PushNotificationsAndroid : Pushwoosh
 
 	public override void SetUser(string userId, List<string> emails)
 	{
-	#if UNITY_ANDROID && !UNITY_EDITOR
 	    using (var javaEmails = new AndroidJavaObject("java.util.ArrayList"))
 	    {
 	        foreach (var email in emails)
@@ -142,11 +147,10 @@ public class PushNotificationsAndroid : Pushwoosh
 	        }
 	        pushwoosh.Call("setUser", userId, javaEmails);
 	    }
-	#endif
 	}
-		public override void SetEmails(List<string> emails)
+
+	public override void SetEmails(List<string> emails)
 	{
-	#if UNITY_ANDROID && !UNITY_EDITOR
 	    using (var javaEmails = new AndroidJavaObject("java.util.ArrayList"))
 	    {
 	        foreach (var email in emails)
@@ -155,7 +159,6 @@ public class PushNotificationsAndroid : Pushwoosh
 	        }
 	        pushwoosh.Call("setEmails", javaEmails);
 	    }
-	#endif
 	}
 
 	public override void SetEmail(string email)
@@ -218,7 +221,6 @@ public class PushNotificationsAndroid : Pushwoosh
 
 	void OnApplicationPause(bool paused)
 	{
-		//make sure everything runs smoothly even if pushwoosh is not initialized yet
 		if (pushwoosh == null)
 			Initialize();
 
@@ -232,12 +234,12 @@ public class PushNotificationsAndroid : Pushwoosh
 
     public override bool IsCommunicationEnabled()
     {
-        return pushwoosh.Call<Boolean>("isCommunicationEnabled"); 
+        return pushwoosh.Call<Boolean>("isCommunicationEnabled");
     }
 
     public override void SetCommunicationEnabled(bool enabled)
     {
-    pushwoosh.Call("setCommunicationEnabled", enabled);
+		pushwoosh.Call("setCommunicationEnabled", enabled);
     }
 
     void OnSetCommunicationEnabled(string enabled)
@@ -245,7 +247,7 @@ public class PushNotificationsAndroid : Pushwoosh
         SetCommunicationEnableCallBack(enabled);
     }
 
-    private string ReturnStringFromNative(string fromNative) 
+    private string ReturnStringFromNative(string fromNative)
     {
         if (fromNative != null && fromNative.Length > 0) {
             return fromNative;
@@ -255,7 +257,7 @@ public class PushNotificationsAndroid : Pushwoosh
 
 #endif
 
-    //Android specific methods
+    // Android specific methods
 
     public string[] GetPushHistory()
     {
@@ -367,12 +369,6 @@ public class PushNotificationsAndroid : Pushwoosh
 #endif
     }
 
-    /* 
-	 * Sound notification types:
-	 * 0 - default mode
-	 * 1 - no sound
-	 * 2 - always
-	 */
     public void SetSoundNotificationType(int soundNotificationType)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -380,12 +376,6 @@ public class PushNotificationsAndroid : Pushwoosh
 #endif
     }
 
-    /* 
-	 * Vibrate notification types:
-	 * 0 - default mode
-	 * 1 - no vibrate
-	 * 2 - always
-	 */
     public void SetVibrateNotificationType(int vibrateNotificationType)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR

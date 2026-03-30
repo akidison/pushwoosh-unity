@@ -7,92 +7,96 @@ using System.Collections.Generic;
 public class PushNotificationsIOS : Pushwoosh
 {
 #if UNITY_IPHONE && !UNITY_EDITOR
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+	static void RegisterPlatform()
+	{
+		Pushwoosh.RegisterPlatformType(typeof(PushNotificationsIOS));
+	}
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_internalSendStringTags (string tagName, string[] tags);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_initializePushManager(string appCode, string appName);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_registerForRemoteNotifications();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_unregisterForRemoteNotifications();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setListenerName(string listenerName);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
-	extern static private System.IntPtr pw_getPushToken();
+	[DllImport("__Internal")]
+	extern static private IntPtr pw_getPushToken();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
-	extern static private System.IntPtr pw_getPushwooshHWID();
+	[DllImport("__Internal")]
+	extern static private IntPtr pw_getPushwooshHWID();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
-	extern static private System.IntPtr pw_getLaunchNotification();
+	[DllImport("__Internal")]
+	extern static private IntPtr pw_getLaunchNotification();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_clearLaunchNotification();
 
-    [System.Runtime.InteropServices.DllImport("__Internal")]
-    extern static private System.IntPtr pw_getRemoteNotificationStatus();
-	
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+    [DllImport("__Internal")]
+    extern static private IntPtr pw_getRemoteNotificationStatus();
+
+	[DllImport("__Internal")]
 	extern static private void pw_setIntTag(string tagName, int tagValue);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setStringTag(string tagName, string tagValue);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_getTags();
-	
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+
+	[DllImport("__Internal")]
 	extern static private void pw_startLocationTracking();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_stopLocationTracking();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_clearNotificationCenter();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setBadgeNumber(int badge);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_addBadgeNumber(int deltaBadge);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setUserId(string userId);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setLanguage(string language);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setUser(string userId, string[] emails);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setEmails(string[] emails);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setEmail(string email);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private bool pw_isCommunicationEnabled();
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_setCommunicationEnabled(bool enabled);
 
-
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_postEvent(string eventId, string attributes);
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
+	[DllImport("__Internal")]
 	extern static private void pw_sendPurchase(string productId, double price, string currency);
 
 	private Queue<GetTagsHandler> tagsHandlers = new Queue<GetTagsHandler>();
 
-	protected override void Initialize () 
+	protected override void Initialize ()
 	{
 		pw_initializePushManager(Pushwoosh.ApplicationCode, null);
 		pw_setListenerName(this.gameObject.name);
@@ -120,7 +124,7 @@ public class PushNotificationsIOS : Pushwoosh
 
 	public override string GetLaunchNotification()
 	{
-		return Marshal.PtrToStringAnsi(pw_getLaunchNotification()); 
+		return Marshal.PtrToStringAnsi(pw_getLaunchNotification());
 	}
 
 	public override void ClearLaunchNotification()
@@ -147,29 +151,21 @@ public class PushNotificationsIOS : Pushwoosh
 	public override void SetUser(string userId, List<string> emails)
 	{
 		List <string> stringEmails = new List<string>();
-		
-		foreach (string email in emails) {			
+		foreach (string email in emails) {
 			if (email != null)
 				stringEmails.Add(email);
 		}
-		
-		string[] array = stringEmails.ToArray();
-	
-		pw_setUser(userId, array);
+		pw_setUser(userId, stringEmails.ToArray());
 	}
 
 	public override void SetEmails(List<string> emails)
 	{
 		List <string> stringEmails = new List<string>();
-		
-		foreach (string email in emails) {			
+		foreach (string email in emails) {
 			if (email != null)
 				stringEmails.Add(email);
 		}
-		
-		string[] array = stringEmails.ToArray();
-	
-		pw_setEmails(array);
+		pw_setEmails(stringEmails.ToArray());
 	}
 
 	public override void SetEmail(string email)
@@ -195,24 +191,19 @@ public class PushNotificationsIOS : Pushwoosh
 	public override void SetListTag(string tagName, List<object> tagValues)
 	{
 		List <string> stringTags = new List<string>();
-		
 		foreach (object tagValue in tagValues) {
 			string stringTag = tagValue.ToString();
-			
 			if (stringTag != null)
 				stringTags.Add(stringTag);
 		}
-		
-		string[] array = stringTags.ToArray();
-		
-		pw_internalSendStringTags (tagName, array);
+		pw_internalSendStringTags (tagName, stringTags.ToArray());
 	}
 
 	public override void SetIntTag(string tagName, int tagValue)
 	{
 		pw_setIntTag(tagName, tagValue);
 	}
-	
+
 	public override void SetStringTag(string tagName, string tagValue)
 	{
 		pw_setStringTag(tagName, tagValue);
@@ -278,7 +269,7 @@ public class PushNotificationsIOS : Pushwoosh
 		PushNotificationsOpened (payload);
 	}
 
-	void onPWInAppPurchaseHelperPaymentComplete(string identifier) 
+	void onPWInAppPurchaseHelperPaymentComplete(string identifier)
 	{
 		PWInAppPurchaseHelperPaymentComplete(identifier);
 	}
@@ -288,7 +279,7 @@ public class PushNotificationsIOS : Pushwoosh
 		PWInAppPurchaseHelperCallPromotedPurchase(identifier);
 	}
 
-	void onPWInAppPurchaseHelperRestoreCompletedTransactionsFailed(string error) 
+	void onPWInAppPurchaseHelperRestoreCompletedTransactionsFailed(string error)
 	{
 		PWInAppPurchaseHelperRestoreCompletedTransactionsFailed(error);
 	}
