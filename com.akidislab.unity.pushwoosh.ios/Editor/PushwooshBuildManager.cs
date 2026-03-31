@@ -76,6 +76,26 @@ public class PushwooshBuildManager : MonoBehaviour
 
 			File.WriteAllText(projPath, proj.WriteToString());
 
+			// Add Background Modes -> Remote notifications
+			string plistPath = pathToBuiltProject + "/Info.plist";
+			PlistDocument plist = new PlistDocument();
+			plist.ReadFromFile(plistPath);
+			PlistElementArray bgModes = plist.root["UIBackgroundModes"] as PlistElementArray;
+			if (bgModes == null)
+				bgModes = plist.root.CreateArray("UIBackgroundModes");
+			bool hasRemote = false;
+			foreach (var mode in bgModes.values)
+			{
+				if (mode.AsString() == "remote-notification")
+				{
+					hasRemote = true;
+					break;
+				}
+			}
+			if (!hasRemote)
+				bgModes.AddString("remote-notification");
+			plist.WriteToFile(plistPath);
+
 			GeneratePodfile(pathToBuiltProject);
 			RunPodInstall(pathToBuiltProject);
 		}
