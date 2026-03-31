@@ -6,14 +6,6 @@ using System.Collections.Generic;
 
 public class PushNotificationsIOS : Pushwoosh
 {
-#if UNITY_IPHONE
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-	static void RegisterPlatform()
-	{
-		Pushwoosh.RegisterPlatformType(typeof(PushNotificationsIOS));
-	}
-#endif
-
 #if UNITY_IPHONE && !UNITY_EDITOR
 
 	[DllImport("__Internal")]

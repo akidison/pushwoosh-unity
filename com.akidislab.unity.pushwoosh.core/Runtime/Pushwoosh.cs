@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Pushwoosh : MonoBehaviour
 {
@@ -237,14 +238,6 @@ public class Pushwoosh : MonoBehaviour
         OnSetCommunicationEnabled(enabled);
     }
 
-	// Platform registration
-	private static Type _platformType;
-
-	public static void RegisterPlatformType(Type type)
-	{
-		_platformType = type;
-	}
-
 	// Singleton
 	private static Pushwoosh _instance;
 	private static object _lock = new object();
@@ -252,6 +245,23 @@ public class Pushwoosh : MonoBehaviour
 	protected Pushwoosh() {}
 
 	protected virtual void Initialize() {}
+
+	private static Type FindPlatformType()
+	{
+		var baseType = typeof(Pushwoosh);
+		foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+		{
+			if (!assembly.FullName.Contains("Pushwoosh"))
+				continue;
+
+			foreach (var type in assembly.GetTypes())
+			{
+				if (type != baseType && baseType.IsAssignableFrom(type))
+					return type;
+			}
+		}
+		return baseType;
+	}
 
 	public static Pushwoosh Instance
 	{
@@ -266,7 +276,7 @@ public class Pushwoosh : MonoBehaviour
 			{
 				if (_instance == null)
 				{
-					Type instanceType = _platformType ?? typeof(Pushwoosh);
+					Type instanceType = FindPlatformType();
 
 					_instance = (Pushwoosh) FindObjectOfType(instanceType);
 

@@ -9,14 +9,6 @@ using PushwooshPlugin = PushwooshForWindowsPhone;
 
 public class PushNotificationsWindows: Pushwoosh
 {
-#if UNITY_WP8 || UNITY_WP8_1 || UNITY_WSA || UNITY_WSA_8_0 || UNITY_WSA_8_1 || UNITY_WSA_10_0
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-	static void RegisterPlatform()
-	{
-		Pushwoosh.RegisterPlatformType(typeof(PushNotificationsWindows));
-	}
-#endif
-
 #if (UNITY_WP8 || UNITY_WP8_1 || UNITY_WSA || UNITY_WSA_8_0 || UNITY_WSA_8_1 || UNITY_WSA_10_0) && !UNITY_EDITOR
 	private PushwooshPlugin.Pushwoosh pushwoosh = null;
 
