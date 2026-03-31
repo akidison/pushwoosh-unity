@@ -18,6 +18,18 @@ class PushwooshBuildProcessor : IPreprocessBuild
         CreateIfNeeded(libUrl + "/res");
         CreateIfNeeded(libUrl + "/res/values");
 
+        string manifestPath = libUrl + "AndroidManifest.xml";
+        if (!File.Exists(manifestPath))
+        {
+            WriteFile("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.pushwoosh.unitypluginresources\" >\n</manifest>", manifestPath);
+        }
+
+        string propsPath = libUrl + "project.properties";
+        if (!File.Exists(propsPath))
+        {
+            WriteFile("target=android-21\nandroid.library=true", propsPath);
+        }
+
         string destinationPath = assetsUrl + "/Plugins/Android/pushwoosh-resources.androidlib/res/values/googleservices.xml";
        
         if (File.Exists(sourcePath))
