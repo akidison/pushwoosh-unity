@@ -5,6 +5,16 @@ All notable changes to Pushwoosh Unity SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.18] - 2026-03-31
+
+### Native SDK Updates
+- Android SDK: 6.7.60
+- iOS SDK: 7.0.33
+
+### Changes
+- Pre-release fixes: guards, naming, inheritance
+- Fix namespace conflict: Pushwoosh.Editor -> PushwooshSDK.Editor
+
 ## [1.0.17] - 2026-03-31
 
 ### Native SDK Updates

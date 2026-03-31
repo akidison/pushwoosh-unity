@@ -32,7 +32,7 @@ using System.Xml;
 using UnityEditor.iOS.Xcode;
 #endif
 
-public class PushwooshBuildManager : MonoBehaviour 
+public class PushwooshBuildManager 
 {
 
 	#if UNITY_IOS

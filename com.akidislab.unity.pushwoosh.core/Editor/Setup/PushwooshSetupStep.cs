@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace Pushwoosh.Editor
+namespace PushwooshSDK.Editor
 {
     public abstract class PushwooshSetupStep
     {

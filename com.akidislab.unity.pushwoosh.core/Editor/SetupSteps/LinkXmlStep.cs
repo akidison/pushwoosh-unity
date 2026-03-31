@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using System.IO;
 
-namespace Pushwoosh.Editor
+namespace PushwooshSDK.Editor
 {
     public class LinkXmlStep : PushwooshSetupStep
     {

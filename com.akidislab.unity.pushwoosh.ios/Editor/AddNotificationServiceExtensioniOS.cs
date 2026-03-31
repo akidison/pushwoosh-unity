@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 using UnityEditor.iOS.Xcode;
 using UnityEditor.iOS.Xcode.Extensions;
@@ -7,7 +8,7 @@ using UnityEditor.Callbacks;
 using System;
 using System.Text.RegularExpressions;
 
-public class AddNotificationServiceExtensioniOS : MonoBehaviour
+public class AddNotificationServiceExtensioniOS
 {
     private static string FindNotificationServiceDir()
     {
@@ -130,3 +131,4 @@ public class AddNotificationServiceExtensioniOS : MonoBehaviour
         proj.WriteToFile(projPath);
     }
 }
+#endif

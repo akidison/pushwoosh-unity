@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Pushwoosh.Editor
+namespace PushwooshSDK.Editor
 {
     public sealed class PushwooshSetupWindow : EditorWindow
     {
