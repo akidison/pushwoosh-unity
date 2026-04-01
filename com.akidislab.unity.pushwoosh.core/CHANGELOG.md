@@ -5,219 +5,509 @@ All notable changes to Pushwoosh Unity SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.23] - 2026-03-31
+## [1.11.3] - 2026-04-01
+
+### Native SDK Updates
+- Android SDK: 6.7.60
+- iOS SDK: 7.0.33
+
+## [1.11.3] - 2026-04-01
+
+### Native SDK Updates
+- Android SDK: 6.7.60
+- iOS SDK: 7.0.33
+
+## [1.11.2] - 2026-04-01
 
 ### Native SDK Updates
 - Android SDK: 6.7.60
 - iOS SDK: 7.0.33
 
 ### Changes
-- Enable foreground push notifications by default on Android
+- Add debug output to github-release script
 
-## [1.0.22] - 2026-03-31
-
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
-
-### Changes
-- Restore firebase-messaging dependency (required by pushwoosh-firebase)
-
-## [1.0.21] - 2026-03-31
-
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
-
-## [1.0.20] - 2026-03-31
-
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
-
-## [1.0.19] - 2026-03-31
+## [1.11.1] - 2026-04-01
 
 ### Native SDK Updates
 - Android SDK: 6.7.60
 - iOS SDK: 7.0.33
 
 ### Changes
-- Remove explicit firebase-messaging dep and duplicate androidlib
+- Migrate to modular UPM architecture
+- [bugfix][SDK-483] Add windows steps back
+- Update update-sdk.sh
+- Update update-sdk.sh
+- Update publish.sh
+- Update .gitlab-ci.yml file
+- [feature][SDK-314] Remove windows build steps
+- [-] Update CI path to Unity 2019
+- [-] Update export_package.sh to work with Unity 2019 and new ExternalDependencyManager
+- fix build/github_release.sh script
+- Update README.md
+- update Makefile
+- fix Makefile
+- Fix publishing
+- fix update-sdk script for ios
+- removed REPO_BRANCH
+- Update github_release.sh
+- Update publish.sh
+- Update github_release.sh
+- Update publish.sh
+- Update .gitlab-ci.yml
+- Add .gitlab-ci.yml
+- fixed dependencies xml path
+- fixed adding JarResolver to package. changed dependencies xml path
+- updated-sdk android via jarresolver
+- Update export_package.sh
+- update sdk fix
+- local build fix
+- fullpath to jq
+- sdk from master
+- [feature][Android] java7 supporting
+- [fixbug][all] Add todo for updating build repository
+- [fixbug][all] remove condition about branch
+- [fixbug][Android] fix bug with incorrect updating version of plugin
+- [fixbug][Android] Up support version to 26.1.0, fix bug with incorrect copying into deploy_android script
+- [fixbug][all] fix mistake into branch word
+- [fixbug][All] Add set to -xe param
+- [fixbug][All] Add ssh command to update-sample script
+- [feature][All] add checking for branch when try release build
+- [feature][All] Add CREATE_GIT_RELEASE flag
+- [feature][All] add possibility to change github repo branch
+- [fixbug] revert update config
+- [feature][Android] Update publish script for android
 
-## [1.0.18] - 2026-03-31
+## [6.2.6] - 2025-09-11
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Updated
+- `registerExistingToken` method now only executes when network constraints are met
 
-### Changes
-- Pre-release fixes: guards, naming, inheritance
-- Fix namespace conflict: Pushwoosh.Editor -> PushwooshSDK.Editor
+## [6.2.5] - 2025-06-11
 
-## [1.0.17] - 2026-03-31
+### Added
+- Added `registerExistingToken` method for Android platform
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.2.4] - 2025-05-27
 
-### Changes
-- Add Setup Wizard (like OneSignal)
-- Auto-generate link.xml in Assets to prevent IL2CPP stripping
+### Changed
+- Added SetCommunicationEnabled() and IsCommunicationEnabled() methods
+- Pushwoosh Android SDK updated to 6.7.25
+- Pushwoosh iOS SDK updated to 6.7.18
 
-## [1.0.16] - 2026-03-31
+## [6.2.3] - 2025-02-12
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Fixed
+- Windows build issues
 
-### Changes
-- Add Background Modes remote-notification to iOS builds
+## [6.2.2] - 2024-12-24
 
-## [1.0.15] - 2026-03-31
+### Fixed
+- Issue with Android devices not registering for pushes with `com.google.firebase:firebase-messaging:24.+`
+- Issue with emails not being properly set on Android
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.2.1] - 2024-11-20
 
-### Changes
-- Remove incompatible packages from Sample manifest
-- Update README with current architecture and dev workflow
-- Add local package references to Sample project for development
-- Refactor to OneSignal-style architecture
-- Move platform runtime classes to Core package
+### Added
+- Support for WSA (Windows Store Apps)
+- Method `SetLanguage` added
 
-## [1.0.14] - 2026-03-30
+### Fixed
+- Fixed receiving the push token
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Updated
+- Pushwoosh Android SDK updated to 6.7.12
+- Pushwoosh iOS SDK updated to 6.7.9
 
-### Changes
-- Fix RegisterPlatform: remove UNITY_EDITOR exclusion
+## [6.2.0] - 2024-07-11
 
-## [1.0.13] - 2026-03-30
+### Fixed
+- Conflict with the latest Firebase libraries
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Updated
+- AGP updated to 7.4.2, Gradle wrapper updated to 7.5
+- EDM4U updated to 1.2.181 version
+- Removed references to now disabled Windows and Windows Phone platforms
+- Pushwoosh Android SDK updated to 6.7.10
+- Pushwoosh iOS SDK updated to 6.5.14
 
-### Changes
-- Remove includePlatforms from runtime asmdef files
+## [6.1.10] - 2023-09-28
 
-## [1.0.12] - 2026-03-30
+### Updated
+- Pushwoosh Android SDK to 6.6.16 version
+- Pushwoosh iOS SDK to 6.5.3 version
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.1.9] - 2023-06-09
 
-### Changes
-- Fix duplicate GUID conflict between link.xml and PushwooshIOSDependencies.xml
+### Added
+- `PW_GENERATE_SUMMARY` AndroidManifest.xml boolean flag
 
-## [1.0.11] - 2026-03-30
+### Updated
+- Pushwoosh Android SDK to 6.6.12 version
+- Pushwoosh iOS SDK to 6.4.13 version
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.1.8] - 2023-04-17
 
-### Changes
-- Fix packaging issues found by review
-- Add meta file for link.xml
+### Updated
+- Pushwoosh Android SDK updated to 6.6.10
+- Pushwoosh iOS SDK updated to 6.4.12
 
-## [1.0.10] - 2026-03-30
+## [6.1.7] - 2023-02-28
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Updated
+- Pushwoosh Android SDK updated to 6.6.9
+- Pushwoosh iOS SDK updated to 6.4.10
 
-### Changes
-- Remove redundant link.xml from platform packages
-- Move link.xml to core package (single file for all assemblies)
-- Add link.xml to prevent IL2CPP code stripping
+## [6.1.6] - 2022-12-22
 
-## [1.0.9] - 2026-03-30
+### Updated
+- Pushwoosh Android SDK updated to 6.6.7
+- Pushwoosh iOS SDK updated to 6.4.8
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.1.5] - 2022-12-01
 
-### Changes
-- Fix NSE: handle null ARCHS build property
+### Updated
+- Pushwoosh Android SDK to 6.6.5
+- Pushwoosh iOS SDK to 6.4.8
 
-## [1.0.8] - 2026-03-30
+## [6.1.4] - 2022-09-14
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Added
+- Callback methods for iOS purchases made from In-Apps
 
-### Changes
-- Fix NSE: support both UPM and .unitypackage paths
+### Updated
+- Pushwoosh iOS SDK version to 6.4.5
 
-## [1.0.7] - 2026-03-30
+## [6.1.3] - 2022-07-29
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Fixed
+- Crash in PushAmazonHandlerJob on Fire 7+ devices
 
-### Changes
-- Update README with Windows platform
-- Add Windows (UWP/WSA) platform support
-- Fix docs: remove metadata table, add Windows platform badge
-- Rewrite documentation
-- Restructure public GitHub repo to UPM layout
-- Update internal README: clarify auto version bump
-- Add internal README with release process and CI documentation
+### Updated
+- Pushwoosh iOS SDK to 6.4.3
+- Pushwoosh Android SDK to 6.6.1
 
-## [1.0.6] - 2026-03-30
+## [6.1.2] - 2022-05-18
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Changed
+- iOS badges now require adding a NotificationServiceExtension
 
-## [1.0.5] - 2026-03-30
+### Updated
+- Pushwoosh Android SDK to 6.5.2 version
+- Pushwoosh iOS SDK to 6.4.2 version
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.1.1] - 2022-03-28
 
-## [1.0.4] - 2026-03-30
+### Updated
+- Pushwoosh Android SDK version to 6.4.4
+- Pushwoosh iOS SDK to 6.3.5
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.1.0] - 2022-03-09
 
-## [1.0.3] - 2026-03-30
+### Changed
+- Plugin now uses `GetUnityMainTargetGuid` instead of deprecated `TargetGuidByName`
+- Android resources are now provided via .androidlib to support latest Unity releases
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Updated
+- Pushwoosh iOS SDK to 6.3.4
+- Pushwoosh Android SDK to 6.4.3
 
-### Changes
-- Add ANDROID_HOME to CI variables
+## [6.0.11] - 2022-02-07
 
-## [1.0.2] - 2026-03-27
+### Fixed
+- java.lang.NullPointerException while executing doInBackground()
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Updated
+- Pushwoosh Android SDK to 6.4.1
+- Pushwoosh iOS SDK to 6.3.3
 
-### Changes
-- Use HTTPS for public SDK tag checks (no SSH key needed for read-only)
+## [6.0.10] - 2022-01-25
 
-## [1.0.1] - 2026-03-27
+### Updated
+- Pushwoosh iOS SDK to 6.3.2
+- Pushwoosh Android SDK to 6.4.0
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+## [6.0.9] - 2021-12-01
 
-### Changes
-- Fix changelog generation: use temp file instead of awk with newlines
-- Fix all review issues: rename dirs to match package.json, add .meta files, update scripts
-- Fix CocoaPods validation to use pod spec cat instead of CDN API
-- Rename UPM packages to com.akidislab.* for testing
-- Add verify stage (iOS/Android/packages), rename to upm-publish, add prerelease-check skill
+### Updated
+- Pushwoosh iOS SDK to 6.3.1
+- Pushwoosh Android SDK to 6.3.6
 
-## [1.0.0] - 2026-03-27
+## [6.0.8] - 2021-09-21
 
-### Native SDK Updates
-- Android SDK: 6.7.60
-- iOS SDK: 7.0.33
+### Updated
+- Android SDK updated to 6.3.3 version
+- iOS SDK updated to 6.2.5 version
+
+## [6.0.7] - 2021-04-08
+
+### Changed
+- Removed the method that collected the list of installed packages to comply with Play Store policy
+
+### Updated
+- Android SDK updated to 6.2.7
+
+## [6.0.6] - 2021-03-24
+
+### Fixed
+- Pushwoosh initialization process for plugins
+- setUserId now properly triggers success callback
+- NullPointerException in RichMediaWebActivity
+- Bug with group notifications in Android 11
+
+### Updated
+- Android SDK updated to 6.2.4
+
+## [6.0.5] - 2021-02-19
+
+### Fixed
+- Fixed UserIDs mixup using SetUserId method in Android
+
+### Updated
+- iOS SDK updated to 6.1.1
+- Android SDK updated to 6.1.4
+
+## [6.0.4] - 2020-10-29
+
+### Updated
+- iOS SDK updated to 6.0.9
+- Android SDK updated to 6.0.7
+
+## [6.0.3] - 2020-06-05
+
+### Fixed
+- Android build issues
+
+## [6.0.2] - 2020-06-05
+
+### Fixed
+- Android build issue
+
+## [6.0.1] - 2020-06-05
+
+### Fixed
+- Android build issue
+
+## [6.0.0] - 2020-06-05
+
+### Changed
+- Android Support libraries replaced with AndroidX
+
+### Updated
+- iOS SDK updated to 6.0.2
+- Android SDK updated to 6.0.0
+
+## [5.22.3] - 2020-03-19
+
+### Updated
+- Android SDK updated to 5.22.2
+- iOS SDK updated to 5.22.3
+
+## [5.21.0] - 2019-12-26
+
+### Updated
+- Android SDK version updated to 5.21.4
+- iOS SDK version updated to 5.21.0
+
+## [5.19.0] - 2019-10-31
+
+### Fixed
+- ANRs caused by push messages being processed in the main thread (Android)
+- Incorrect inbox URL opening behaviour (Android)
+- Background processing that caused extra battery consumption (Android)
+
+### Changed
+- Replaced UIWebView with WKWebView (iOS)
+
+### Updated
+- Android SDK version updated to 5.19.5
+- iOS SDK version updated to 5.19.3
+
+## [5.17.0] - 2019-07-09
+
+### Fixed
+- PlayServicesResolver updated to 1.2.121.0
+- Preprocessor definitions for PushNotificationsAndroid class updated
+
+## [5.15.0] - 2019-06-19
+
+### Fixed
+- Android build issue related to firebase libraries version
+- Error while passing date event attributes
+
+## [5.14.1] - 2019-05-23
+
+### Fixed
+- Zip Path Traversal Vulnerability
+
+### Updated
+- Android SDK version updated to 5.14.3
+- iOS SDK version updated to 5.13.1
+
+## [5.14.0] - 2019-04-19
+
+### Added
+- Ability to update names and descriptions of Notification Channels via SDK
+
+### Updated
+- Android SDK version updated to 5.14.0
+- iOS SDK version updated to 5.13.1
+
+## [5.13.0] - 2019-03-06
+
+### Fixed
+- Renamed GcmProjectNumber to FcmProjectNumber
+
+### Updated
+- Android SDK version updated to 5.13.2
+- iOS SDK version updated to 5.13.0
+
+## [5.12.2] - 2019-02-21
+
+### Updated
+- Dependencies versions
+
+## [5.12.1] - 2019-02-12
+
+### Fixed
+- FCM registration error
+- Crash on iOS 9
+
+### Added
+- Auto add iOS Entitlements
+
+### Updated
+- iOS SDK version updated to 5.12.2
+
+## [5.12.0] - 2019-02-07
+
+### Changed
+- Unity plugin updated to use FCM instead of GCM
+
+### Updated
+- Android SDK version updated to 5.12.1
+- iOS SDK version updated to 5.12.1
+
+## [5.11.0] - 2018-12-07
+
+### Fixed
+- Issue with badge module resulting in a NullPointerException
+
+### Updated
+- Android SDK version updated to 5.11.0
+- iOS SDK version updated to 5.11.0
+
+## [5.10.0] - 2018-11-28
+
+### Changed
+- Moved iOS native dependencies to CocoaPods
+- Geozones feature is no longer linked by default on iOS
+
+### Updated
+- Android SDK version updated to 5.9.4
+- iOS SDK version updated to 5.10.0
+
+## [5.9.3] - 2018-10-29
+
+### Updated
+- Android SDK version updated to 5.9.3
+
+## [5.9.2] - 2018-10-23
+
+### Added
+- RemoteNotificationStatus getter
+- Different iOS notification handlers support
+
+### Updated
+- Android SDK version updated to 5.9.2
+
+## [5.9.0] - 2018-09-28
+
+### Added
+- Local notifications with large icon
+
+### Fixed
+- Unity 2018 issues
+
+### Updated
+- Android SDK version updated to 5.9.0
+- iOS SDK version updated to 5.9.0
+
+## [5.8.2] - 2018-08-30
+
+### Improved
+- SDK performance related to OOM issues
+
+### Updated
+- Android SDK version updated to 5.8.8
+
+## [5.8.1] - 2018-08-08
+
+### Fixed
+- Occasional app crashes when using local notifications
+
+### Updated
+- Android SDK version updated to 5.8.5
+- iOS SDK version updated to 5.8.3
+
+## [5.8.0] - 2018-06-25
+
+### Added
+- Unity 2018 support
+
+### Updated
+- Android SDK version updated to 5.8.1
+- iOS SDK version updated to 5.8.0
+
+## [5.6.2] - 2018-06-04
+
+### Updated
+- Android SDK version updated to 5.7.5
+- iOS SDK version updated to 5.7.2
+
+## [5.6.1] - 2018-05-31
+
+### Updated
+- Android SDK version updated to 5.7.4
+- iOS SDK version updated to 5.7.1
+
+## [5.6.0] - 2018-05-10
+
+### Added
+- GDPR compliance solution
+- In-App business solutions
+
+### Fixed
+- iOS SDK conflict with Firebase
+
+### Updated
+- Android SDK version updated to 5.7.2
+- iOS SDK version updated to 5.7
+
+## [5.5.4] - 2018-02-21
+
+### Updated
+- Android SDK version updated to 5.5.5
+- iOS SDK version updated to 5.5.4
+
+## [5.5.3] - 2018-01-15
+
+### Updated
+- Android SDK version updated to 5.5.3
+- iOS SDK version updated to 5.5.3
+
+## [5.5.1] - 2017-12-21
+
+### Added
+- Support of Java 7
+
+## [5.5.0] - 2017-12-12
+
+### Updated
+- iOS SDK updated to 5.5.2
+- Android SDK updated to 5.5.2
+
+## [5.4.0] - 2017-10-24
+
+### Updated
+- Android SDK version updated to 5.4.1
+- iOS SDK version updated to 5.4.0
